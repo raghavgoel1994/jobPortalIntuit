@@ -1,0 +1,10 @@
+.searchHeader {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 2rem;
+}
+
+.jobCardContainer {
+    margin-top: 1rem;
+}

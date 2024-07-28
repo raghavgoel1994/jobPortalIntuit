@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import style from "./App.module.css";
+import Navbar from "./components/Navbar/Navbar";
+import { setNavigate } from "./utils/history";
 
-function App() {
+function App({ children }) {
+  const navigate = useNavigate();
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    setNavigate(navigate);
+  }, [navigate]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar theme={theme} toggleTheme={setTheme} />
+      <div className={style.container}>{children || <Outlet />}</div>
+    </>
   );
 }
 

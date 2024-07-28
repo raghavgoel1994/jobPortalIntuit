@@ -1,0 +1,19 @@
+.SearchFormContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 10%;
+}
+
+.SearchForm {
+    margin-top: 40px;
+    width: 30%;
+}
+
+@media (max-width: 480px) {
+    .SearchForm {
+        width: 75%;
+    }
+}

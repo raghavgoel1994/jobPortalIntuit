@@ -1,0 +1,13 @@
+.customSelect {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .customSelect {
+    font-size: 0.875rem;
+  }
+}

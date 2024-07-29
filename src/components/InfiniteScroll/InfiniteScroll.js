@@ -22,10 +22,10 @@ const InfiniteScroll = ({ loadMore, hasMore, children, threshold = 300 }) => {
   );
 
   return (
-    <div>
+    <>
       {children}
       <div ref={lastElementRef} />
-    </div>
+    </>
   );
 };
 

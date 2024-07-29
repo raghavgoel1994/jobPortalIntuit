@@ -9,6 +9,8 @@ const freelance = createSlice({
     jobs: [],
     appliedJobs: [],
     profile: {},
+    hasMore: false,
+    page: 1,
   },
   reducers: {
     saveSkillsFailure: (state, action) => {
@@ -41,11 +43,18 @@ const freelance = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.jobs = [];
+      state.hasMore = false;
+      state.page = 1;
     },
     getJobsSuccess: (state, action) => {
       state.isLoading = false;
       state.isError = false;
-      state.jobs = action.payload;
+      state.jobs =
+        action.payload.page === 1
+          ? action.payload.jobs
+          : [...state.jobs, ...action.payload.jobs];
+      state.hasMore = action.payload.hasMore;
+      state.page = action.payload.page + 1;
     },
     getJobs: (state, action) => {
       state.isLoading = true;

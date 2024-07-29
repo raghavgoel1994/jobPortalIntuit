@@ -30,9 +30,11 @@ const getGitHubReposApi = async ({ github }) => {
   }
 };
 
-const getJobsApi = async ({ filter = "" }) => {
+const getJobsApi = async ({ filter = "", page }) => {
   try {
-    const response = await api.get(`jobs?${filter}`);
+    const response = await api.get(
+      `jobs?${filter}${page ? `&_page=${page}` : ""}`
+    );
     return response.data;
   } catch (error) {
     console.error("getJobsApi failed:", error);

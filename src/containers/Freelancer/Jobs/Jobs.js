@@ -13,9 +13,10 @@ import SearchForm from "./Components/SearchForm/SearchForm";
 import style from "./Jobs.module.css";
 
 const Jobs = () => {
-  const jobs = useSelector((state) => state.freelance.jobs);
+  const { jobs, hasMore, page } = useSelector((state) => state.freelance);
   const freelancerId = useSelector((state) => state.auth.user.id);
   const appliedJobs = useSelector((state) => state.freelance.appliedJobs);
+  const [filter, setFilter] = useState("");
 
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({
@@ -31,6 +32,10 @@ const Jobs = () => {
     [dispatch]
   );
 
+  const debouncedFetchWithPageJobs = useCallback(() => {
+    debouncedFetchJobs({ filter, page });
+  }, [filter, page]);
+
   useEffect(() => {
     let filter = "";
     if (filters.salary) {
@@ -42,12 +47,16 @@ const Jobs = () => {
     if (filters.freeText) {
       filter = `${filter}q=${filters.freeText}`;
     }
-    debouncedFetchJobs({ filter });
+    setFilter(filter);
   }, [filters.salary, filters.freeText, filters.skills]);
 
   useEffect(() => {
     dispatch(getJobsFromUserId({ freelancerId }));
   }, [freelancerId]);
+
+  useEffect(() => {
+    debouncedFetchJobs({ filter, page: 1 });
+  }, [filter]);
 
   const onJobApply = (jobId) => {
     dispatch(postApplication({ jobId, freelancerId }));
@@ -67,6 +76,8 @@ const Jobs = () => {
         style={style}
         onJobApply={onJobApply}
         appliedJobs={appliedJobs}
+        hasMore={hasMore}
+        loadMore={debouncedFetchWithPageJobs}
       />
     </>
   );

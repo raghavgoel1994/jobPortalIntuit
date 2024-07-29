@@ -81,9 +81,15 @@ function* getGithubProfile(action) {
 
 function* getJobsSaga(action) {
   try {
+    let hasMore = false;
     const jobs = yield call(getJobsApi, action.payload);
     if (jobs) {
-      yield put(getJobsSuccess(jobs));
+      if (jobs.length === 10) {
+        hasMore = true;
+      }
+      yield put(
+        getJobsSuccess({ jobs, hasMore, page: action.payload.page || 1 })
+      );
     } else {
       yield put(getJobsFailure("Jobs fetch Failed"));
     }
